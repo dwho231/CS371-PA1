@@ -183,13 +183,11 @@ void run_server() {
         num_events = epoll_wait(e, events, MAX_EVENTS, -1);
         for (int i = 0; i < num_events; i++){
             if (events[i].data.fd == s){
-                //printf("test\n");
                 sa = accept(s, NULL, NULL);
                 if (sa < 0) {printf("Server accept failed\n"); exit(-1);}
                 event.data.fd = sa;
                 epoll_ctl(e, EPOLL_CTL_ADD, sa, &event);
             }else{
-                printf("test2\n");
                 char buf[MESSAGE_SIZE];
                 bytes = recv(events[i].data.fd, buf, MESSAGE_SIZE, 0);
                 if (bytes > 0){
